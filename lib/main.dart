@@ -44,9 +44,6 @@ class HomePageState extends ConsumerState<HomePage> {
     final selectedImage = ref.watch(imageProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Thumbnail Drawer Example'),
-      ),
       drawer: Drawer(
         child: ListView(
           children: [
@@ -71,10 +68,26 @@ class HomePageState extends ConsumerState<HomePage> {
           ],
         ),
       ),
-      body: Center(
-        child: selectedImage == null
-            ? const Text('이미지를 선택하세요')
-            : Image.network(selectedImage),
+      body: Stack(
+        children: [
+          Center(
+            child: selectedImage == null
+                ? const Text('이미지를 선택하세요')
+                : Image.network(selectedImage),
+          ),
+          Positioned(
+            top: 0,
+            left: 10,
+            child: Builder(
+              builder: (context) => IconButton(
+                icon: const Icon(Icons.menu),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
